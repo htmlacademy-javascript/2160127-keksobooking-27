@@ -81,10 +81,10 @@ function createAdvert(id) {
     offer: {
       title: getrandonElementArray(TITLES),
       address: `${location.lat}, ${location.lng}`,
-      price: getRandomNumber(1000, 25000),
+      price: getRandomNumber(1000, 10000),
       type: ApartamentsTypes[getrandonElementArray(TYPES)],
-      rooms: getRandomNumber(1, 5),
-      guests: getRandomNumber(1, 5),
+      rooms: getRandomNumber(1, 3),
+      guests: getRandomNumber(1, 3),
       checkin: getrandonElementArray(TIMES),
       checkout: getrandonElementArray(TIMES),
       features: getRandomArrayLength(LIST_FIATURES),
