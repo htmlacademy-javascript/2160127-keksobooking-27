@@ -1,6 +1,4 @@
-const cardTempldate = document
-  .querySelector('#card')
-  .content.querySelector('article');
+const cardTempldate = document.querySelector('#card').content.querySelector('article');
 
 const divSection = document.querySelector('#map-canvas');
 
@@ -27,9 +25,7 @@ const generateCards = (arrCards) =>
       featureElem.remove();
     } else {
       festuresList.forEach((listItem) => {
-        const isRequired = offer.features.some((feature) =>
-          listItem.classList.contains(`popup__feature--${feature}`)
-        );
+        const isRequired = offer.features.some((feature) => listItem.classList.contains(`popup__feature--${feature}`));
 
         if (!isRequired) {
           listItem.remove();

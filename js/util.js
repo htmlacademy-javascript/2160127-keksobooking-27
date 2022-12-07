@@ -1,5 +1,4 @@
-const randomInteger = (min, max) =>
-  Math.round(min - 0.5 + Math.random() * (max - min + 1));
+const randomInteger = (min, max) => Math.round(min - 0.5 + Math.random() * (max - min + 1));
 
 const getRandomNumber = (firstNumder, secondNumder) => {
   if (firstNumder < 0 || secondNumder < 0) {
@@ -11,11 +10,9 @@ const getRandomNumber = (firstNumder, secondNumder) => {
     return randomInteger(firstNumder, secondNumder);
   }
 };
-const getrandonElementArray = (array) =>
-  array[getRandomNumber(0, array.length - 1)];
+const getrandonElementArray = (array) => array[getRandomNumber(0, array.length - 1)];
 
-const randomFloat = (min, max, digits) =>
-  (Math.random() * (max - min) + min).toFixed(digits);
+const randomFloat = (min, max, digits) => (Math.random() * (max - min) + min).toFixed(digits);
 
 const getRandomFloat = (firstNumder, secondNumder, num) => {
   if (firstNumder < 0 || secondNumder < 0) {
@@ -42,10 +39,4 @@ const getRandomArrayLength = (arr) => {
 
 const zeroLeadingSubstitute = (num) => num.toString().padStart(2, '0');
 
-export {
-  getRandomFloat,
-  zeroLeadingSubstitute,
-  getrandonElementArray,
-  getRandomNumber,
-  getRandomArrayLength
-};
+export { getRandomFloat, zeroLeadingSubstitute, getrandonElementArray, getRandomNumber, getRandomArrayLength };
