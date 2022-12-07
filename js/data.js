@@ -15,7 +15,7 @@ const TITLES = [
   'Адрес, который вы будете называть с гордостью'
 ];
 const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
-const ApartamentsTypes = {
+const apartamentsTypes = {
   flat: 'Квартира',
   palace: 'Дворец',
   house: 'Дом',
@@ -54,7 +54,7 @@ function createAdvert(id) {
       title: getrandonElementArray(TITLES),
       address: `${location.lat}, ${location.lng}`,
       price: getRandomNumber(1000, 10000),
-      type: ApartamentsTypes[getrandonElementArray(TYPES)],
+      type: apartamentsTypes[getrandonElementArray(TYPES)],
       rooms: getRandomNumber(1, 3),
       guests: getRandomNumber(1, 3),
       checkin: getrandonElementArray(TIMES),

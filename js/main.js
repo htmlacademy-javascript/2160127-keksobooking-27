@@ -1,6 +1,6 @@
 import { createArrayOfObjects } from './data.js';
 import { generateCards } from './render.js';
-import { turnAdFormOff, turnAdFormOn } from './form.js';
+import { turnAdFormOff, turnAdFormOn, adFormSubmit } from './form.js';
 
 generateCards(
   createArrayOfObjects()
@@ -10,3 +10,5 @@ generateCards(
 
 turnAdFormOff();
 turnAdFormOn();
+
+adFormSubmit();

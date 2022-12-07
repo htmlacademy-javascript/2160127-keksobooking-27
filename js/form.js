@@ -19,4 +19,23 @@ const turnAdFormOn = () => {
   turnFilterOn();
 };
 
-export { turnAdFormOff, turnAdFormOn };
+const pristine = new Pristine(adForm, {
+  classTo: 'img-upload__text',
+  errorTextParent: 'img-upload__text',
+  errorTextClass: 'img-upload__text__error-text'
+});
+
+const adFormSubmit = () => {
+  adForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+
+    if (isValid) {
+      console.log('isValid');
+    } else {
+      console.log('!isValid');
+    }
+  });
+};
+
+export { turnAdFormOff, turnAdFormOn, adFormSubmit };
