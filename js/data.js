@@ -1,21 +1,8 @@
-import {
-  getRandomFloat,
-  zeroLeadingSubstitute,
-  getrandonElementArray,
-  getRandomNumber,
-  getRandomArrayLength
-} from './util.js';
+import { getRandomFloat, zeroLeadingSubstitute, getrandonElementArray, getRandomNumber, getRandomArrayLength } from './util.js';
 
 const COUNT_OBJECTS = 10;
 
-const DESCRIPTIONS = [
-  'Отличный вид из окна',
-  'С видом на озеро',
-  'Тихий район',
-  'Рядом парк',
-  'Не далеко кинотеатр',
-  'Отличное место'
-];
+const DESCRIPTIONS = ['Отличный вид из окна', 'С видом на озеро', 'Тихий район', 'Рядом парк', 'Не далеко кинотеатр', 'Отличное место'];
 const TITLES = [
   'Нельзя пройти мимо',
   'Супердом',
@@ -37,14 +24,7 @@ const ApartamentsTypes = {
 };
 
 const TIMES = ['12:00', '13:00', '14:00'];
-const LIST_FIATURES = [
-  'wifi',
-  'dishwasher',
-  'parking',
-  'washer',
-  'elevator',
-  'conditioner'
-];
+const LIST_FIATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 
 const COORDINATES = {
   MIN_LAT: 35.65,
@@ -62,16 +42,8 @@ const PHOTO_ADDRESSES = [
 
 function createAdvert(id) {
   const location = {
-    lat: getRandomFloat(
-      COORDINATES.MIN_LAT,
-      COORDINATES.MAX_LAT,
-      COORDINATES.COUNT_OF_DECIMALS
-    ),
-    lng: getRandomFloat(
-      COORDINATES.MIN_LNG,
-      COORDINATES.MAX_LNG,
-      COORDINATES.COUNT_OF_DECIMALS
-    )
+    lat: getRandomFloat(COORDINATES.MIN_LAT, COORDINATES.MAX_LAT, COORDINATES.COUNT_OF_DECIMALS),
+    lng: getRandomFloat(COORDINATES.MIN_LNG, COORDINATES.MAX_LNG, COORDINATES.COUNT_OF_DECIMALS)
   };
 
   return {
@@ -95,7 +67,6 @@ function createAdvert(id) {
   };
 }
 
-const createArrayOfObjects = () =>
-  Array.from({ length: COUNT_OBJECTS }, (_, index) => createAdvert(index + 1));
+const createArrayOfObjects = () => Array.from({ length: COUNT_OBJECTS }, (_, index) => createAdvert(index + 1));
 
 export { createArrayOfObjects };
