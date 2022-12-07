@@ -27,7 +27,15 @@ const TITLES = [
   'Отличные соседи, отличная цена',
   'Адрес, который вы будете называть с гордостью'
 ];
-const APARTMENT_TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const TYPES = ['palace', 'flat', 'house', 'bungalow', 'hotel'];
+const ApartamentsTypes = {
+  flat: 'Квартира',
+  palace: 'Дворец',
+  house: 'Дом',
+  bungalow: 'Бунгало',
+  hotel: 'Отель'
+};
+
 const TIMES = ['12:00', '13:00', '14:00'];
 const LIST_FIATURES = [
   'wifi',
@@ -45,6 +53,12 @@ const COORDINATES = {
   MAX_LNG: 139.8,
   COUNT_OF_DECIMALS: 5
 };
+
+const PHOTO_ADDRESSES = [
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/duonguyen-8LrGtIxxa4w.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
+  'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg'
+];
 
 function createAdvert(id) {
   const location = {
@@ -68,13 +82,14 @@ function createAdvert(id) {
       title: getrandonElementArray(TITLES),
       address: `${location.lat}, ${location.lng}`,
       price: getRandomNumber(1000, 25000),
-      type: getrandonElementArray(APARTMENT_TYPES),
+      type: ApartamentsTypes[getrandonElementArray(TYPES)],
       rooms: getRandomNumber(1, 5),
       guests: getRandomNumber(1, 5),
       checkin: getrandonElementArray(TIMES),
       checkout: getrandonElementArray(TIMES),
       features: getRandomArrayLength(LIST_FIATURES),
-      description: getrandonElementArray(DESCRIPTIONS)
+      description: getrandonElementArray(DESCRIPTIONS),
+      photos: getRandomArrayLength(PHOTO_ADDRESSES)
     },
     location: location
   };

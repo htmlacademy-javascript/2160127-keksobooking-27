@@ -36,6 +36,7 @@ const getRandomArrayLength = (arr) => {
       newArr.push(arr[i]);
     }
   }
+  newArr.sort(() => Math.random() - 0.5);
   return newArr;
 };
 

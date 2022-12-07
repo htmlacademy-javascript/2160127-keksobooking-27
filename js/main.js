@@ -1,3 +1,8 @@
 import { createArrayOfObjects } from './data.js';
+import { generateCards } from './render.js';
 
-createArrayOfObjects();
+generateCards(
+  createArrayOfObjects()
+    .sort(() => Math.random() - 0.5)
+    .slice(-1)
+);
