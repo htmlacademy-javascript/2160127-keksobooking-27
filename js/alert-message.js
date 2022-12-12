@@ -1,20 +1,16 @@
 const TIME = 5000;
 
-const divErrorTempldate = document.querySelector('#error').content.querySelector('.error');
+const showAlert = (status) => {
+  const messageTemplateElement = document.querySelector(`#${status}`).content.querySelector(`.${status}`);
+  const Fragment = document.createDocumentFragment();
+  const Elem = messageTemplateElement.cloneNode(true);
 
-const errorElem = divErrorTempldate.cloneNode(true);
-
-const errorFragment = document.createDocumentFragment();
-
-//const divError = document.querySelector('#error');
-const showAlert = (message) => {
-  errorElem.textContent = message;
-  //divError.classList.remove('visually-hidden');
-
-  errorFragment.appendChild(errorElem);
+  Fragment.appendChild(Elem);
+  document.body.append(Fragment);
 
   setTimeout(() => {
-    errorFragment.removeChild(errorElem);
+    const messageDiv = document.body.querySelector(`.${status}`);
+    document.body.removeChild(messageDiv);
   }, TIME);
 };
 

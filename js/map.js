@@ -1,6 +1,7 @@
 import { turnAdFormOff, turnAdFormOn } from './form.js';
 
 import { cardsData, cardFragment } from './render.js';
+//import { generateCards } from './render.js'; cardElem
 
 const CENTER_COORDINATES = {
   lat: 35.71809,
