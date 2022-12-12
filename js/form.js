@@ -10,6 +10,7 @@ const MAX_PRICE = 100000;
 
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
+
 const roomsOption = {
   1: ['1'],
   2: ['1', '2'],
@@ -28,6 +29,8 @@ const typeOption = {
 
 const adFormTimeIn = adForm.querySelector('#timein');
 const adFormTimeOut = adForm.querySelector('#timeout');
+
+const slider = adForm.querySelector('.ad-form__slider');
 
 const turnAdFormOff = () => {
   adForm.classList.add('ad-form--disabled');
@@ -75,6 +78,36 @@ const pristine = new Pristine(adForm, {
 const onTypeChange = () => {
   adFormPrice.placeholder = typeOption[adFormType.value];
 };
+
+noUiSlider.create(slider, {
+  range: {
+    min: 0,
+    max: MAX_PRICE
+  },
+  start: 0,
+  step: 1,
+  connect: 'lower',
+  format: {
+    to: function (cost) {
+      return cost.toFixed(0);
+    },
+    from: function (cost) {
+      return parseFloat(cost);
+    }
+  }
+});
+
+slider.noUiSlider.on('change', () => {
+  adFormPrice.value = slider.noUiSlider.get();
+  pristine.validate(adFormPrice);
+});
+
+adFormPrice.addEventListener('input', () => {
+  if (!adFormPrice.value) {
+    slider.noUiSlider.set(0);
+  }
+  slider.noUiSlider.set(adFormPrice.value);
+});
 
 adFormType.addEventListener('change', onTypeChange);
 
