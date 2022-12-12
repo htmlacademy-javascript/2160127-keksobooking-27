@@ -26,6 +26,9 @@ const typeOption = {
   palace: '10000'
 };
 
+const adFormTimeIn = adForm.querySelector('#timein');
+const adFormTimeOut = adForm.querySelector('#timeout');
+
 const turnAdFormOff = () => {
   adForm.classList.add('ad-form--disabled');
   fieldsets.forEach((children) => {
@@ -45,6 +48,21 @@ const turnAdFormOn = () => {
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 const validatePrice = () => adFormPrice.value <= MAX_PRICE;
 const validateCapacity = () => roomsOption[adFormRooms.value].includes(adFormCapacity.value);
+
+const onTimeChange = (time, timeChange) => {
+  time.value = timeChange.value;
+};
+const validateTimeIn = () => {
+  adFormTimeOut.addEventListener('change', onTimeChange(adFormTimeOut, adFormTimeIn));
+
+  return adFormTimeOut.value === adFormTimeIn.value;
+};
+
+const validateTimeOut = () => {
+  adFormTimeIn.addEventListener('change', onTimeChange(adFormTimeIn, adFormTimeOut));
+
+  return adFormTimeIn.value === adFormTimeOut.value;
+};
 
 const pristine = new Pristine(adForm, {
   classTo: 'ad-form__element',
@@ -72,6 +90,10 @@ pristine.addValidator(adFormRooms, validateCapacity, 'Количество ко�
 
 pristine.addValidator(adFormCapacity, validateCapacity, 'Такое количество гостей не соответсвует количеству комнат');
 pristine.addValidator(adFormPrice, validateType, validateTypeDescription);
+
+pristine.addValidator(adFormTimeIn, validateTimeIn, 'Время заезда должно быть равно времени выезда');
+
+pristine.addValidator(adFormTimeOut, validateTimeOut, 'Время выезда должно быть равно времени заезда');
 
 const adFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
