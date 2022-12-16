@@ -1,11 +1,11 @@
 import { turnAdFormOff, turnAdFormOn } from './form.js';
-
-import { cardsData, cardFragment } from './render.js';
+//import { createArrayOfObjects } from './data.js';
+import { render } from './render.js';
 //import { generateCards } from './render.js'; cardElem
 
 const CENTER_COORDINATES = {
-  lat: 35.71809,
-  lng: 139.77974
+  lat: 35.68401,
+  lng: 139.7559
 };
 
 const address = document.querySelector('#address');
@@ -16,7 +16,7 @@ const map = L.map('map-canvas')
   .on('load', () => {
     turnAdFormOn();
   })
-  .setView(CENTER_COORDINATES, 10);
+  .setView(CENTER_COORDINATES, 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -53,16 +53,53 @@ marker.on('moveend', (evt) => {
   address.value = `${lat}, ${lng}`;
 });
 
-cardsData.forEach(({ location }, index) => {
-  const markerNew = L.marker(
-    {
-      lat: location.lat,
-      lng: location.lng
-    },
-    {
-      icon: otherIcon
-    }
-  );
+//const adsArray = createArrayOfObjects();
 
-  markerNew.addTo(map).bindPopup(cardFragment.children[index]);
-});
+const renderMarker = (adList) => {
+  adList.forEach(({ location }, index) => {
+    const markerN = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng
+      },
+      {
+        icon: otherIcon
+      }
+    );
+
+    markerN.addTo(map).bindPopup(render(adList, index));
+  });
+};
+
+// const createMarker = (offer) => {
+//   const markerOther = L.marker(
+//     {
+//       lat: offer.location.lat,
+//       lng: offer.location.lng
+//     },
+//     {
+//       otherIcon
+//     }
+//   );
+
+//   markerOther.addTo(map).bindPopup(adsArray);
+// };
+
+// adsArray.forEach((offer) => {
+//   createMarker(offer);
+// });
+
+// adsArray.forEach(({ location }, index) => {
+//   const markerNew = L.marker(
+//     {
+//       lat: location.lat,
+//       lng: location.lng
+//     },
+//     {
+//       icon: otherIcon
+//     }
+//   );
+
+//   markerNew.addTo(map).bindPopup(render.children[index]);
+// });
+export { renderMarker };

@@ -1,6 +1,10 @@
 import { adFormSubmit } from './form.js';
 import './map.js';
-import { showAlert } from './alert-message.js';
+import { renderMarker } from './map.js';
 
-showAlert('success');
+//import { showAlert } from './alert-message.js';
+import { getData } from './server.js';
+
+//showAlert('error');
 adFormSubmit();
+getData(renderMarker);

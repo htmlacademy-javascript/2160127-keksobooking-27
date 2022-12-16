@@ -1,6 +1,15 @@
 const TIME = 5000;
 
-const showAlert = (status) => {
+const showAlert = (message) => {
+  const divError = document.querySelector('.error_div_get');
+  divError.textContent = message;
+  divError.classList.remove('visually-hidden');
+  setTimeout(() => {
+    divError.classList.add('visually-hidden');
+  }, TIME);
+};
+
+const showStatus = (status) => {
   const messageTemplateElement = document.querySelector(`#${status}`).content.querySelector(`.${status}`);
   const Fragment = document.createDocumentFragment();
   const Elem = messageTemplateElement.cloneNode(true);
@@ -14,4 +23,4 @@ const showAlert = (status) => {
   }, TIME);
 };
 
-export { showAlert };
+export { showAlert, showStatus };
