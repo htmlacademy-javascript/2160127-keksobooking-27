@@ -1,13 +1,15 @@
 import { turnFilterOff, turnFilterOn } from './filter.js';
 
-const adForm = document.querySelector('.ad-form');
-const fieldsets = adForm.querySelectorAll('fieldset');
-
-const adFormTitle = adForm.querySelector('#title');
-
-const adFormPrice = adForm.querySelector('#price');
 const MAX_PRICE = 100000;
 
+const adForm = document.querySelector('.ad-form');
+const fieldsets = adForm.querySelectorAll('fieldset');
+const adFormTitle = adForm.querySelector('#title');
+const adFormType = adForm.querySelector('#type');
+const adFormPrice = adForm.querySelector('#price');
+const adFormTimeIn = adForm.querySelector('#timein');
+const adFormTimeOut = adForm.querySelector('#timeout');
+const slider = adForm.querySelector('.ad-form__slider');
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 
@@ -18,7 +20,6 @@ const roomsOption = {
   100: ['0']
 };
 
-const adFormType = adForm.querySelector('#type');
 const typeOption = {
   bungalow: '0',
   flat: '1000',
@@ -26,11 +27,6 @@ const typeOption = {
   house: '5000',
   palace: '10000'
 };
-
-const adFormTimeIn = adForm.querySelector('#timein');
-const adFormTimeOut = adForm.querySelector('#timeout');
-
-const slider = adForm.querySelector('.ad-form__slider');
 
 const turnAdFormOff = () => {
   adForm.classList.add('ad-form--disabled');
@@ -142,4 +138,15 @@ const adFormSubmit = () => {
   });
 };
 
-export { turnAdFormOff, turnAdFormOn, adFormSubmit };
+export {
+  turnAdFormOff,
+  turnAdFormOn,
+  adFormSubmit,
+  adFormTitle,
+  adFormType,
+  adFormPrice,
+  adFormTimeIn,
+  adFormTimeOut,
+  adFormRooms,
+  adFormCapacity
+};

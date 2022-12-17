@@ -1,7 +1,5 @@
 import { turnAdFormOff, turnAdFormOn } from './form.js';
-//import { createArrayOfObjects } from './data.js';
 import { render } from './render.js';
-//import { generateCards } from './render.js'; cardElem
 
 const CENTER_COORDINATES = {
   lat: 35.68401,
@@ -40,10 +38,18 @@ const marker = L.marker(
     draggable: true,
     icon: mainIcon
   },
-  (address.value = `${CENTER_COORDINATES.lat} ${CENTER_COORDINATES.lng}`)
+  (address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`)
 );
 
 marker.addTo(map);
+
+const resetMarker = () => {
+  marker.setLatLng({
+    lat: CENTER_COORDINATES.lat,
+    lng: CENTER_COORDINATES.lng
+  });
+  address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`;
+};
 
 marker.on('moveend', (evt) => {
   const latLng = evt.target.getLatLng();
@@ -52,8 +58,6 @@ marker.on('moveend', (evt) => {
 
   address.value = `${lat}, ${lng}`;
 });
-
-//const adsArray = createArrayOfObjects();
 
 const renderMarker = (adList) => {
   adList.forEach(({ location }, index) => {
@@ -71,35 +75,4 @@ const renderMarker = (adList) => {
   });
 };
 
-// const createMarker = (offer) => {
-//   const markerOther = L.marker(
-//     {
-//       lat: offer.location.lat,
-//       lng: offer.location.lng
-//     },
-//     {
-//       otherIcon
-//     }
-//   );
-
-//   markerOther.addTo(map).bindPopup(adsArray);
-// };
-
-// adsArray.forEach((offer) => {
-//   createMarker(offer);
-// });
-
-// adsArray.forEach(({ location }, index) => {
-//   const markerNew = L.marker(
-//     {
-//       lat: location.lat,
-//       lng: location.lng
-//     },
-//     {
-//       icon: otherIcon
-//     }
-//   );
-
-//   markerNew.addTo(map).bindPopup(render.children[index]);
-// });
-export { renderMarker };
+export { renderMarker, resetMarker };

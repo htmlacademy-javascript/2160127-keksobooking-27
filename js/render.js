@@ -1,5 +1,4 @@
 const cardTempldate = document.querySelector('#card').content.querySelector('.popup');
-//const cardsData = getData();
 const cardFragment = document.createDocumentFragment();
 
 const render = (cardsData) => {
