@@ -1,4 +1,8 @@
 const TIME = 5000;
+const successElement = document.querySelector('#success').content.querySelector('.success');
+const errorElement = document.querySelector('#error').content.querySelector('.error');
+
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
   const divError = document.querySelector('.error_div_get');
@@ -9,18 +13,39 @@ const showAlert = (message) => {
   }, TIME);
 };
 
-const showStatus = (status) => {
-  const messageTemplateElement = document.querySelector(`#${status}`).content.querySelector(`.${status}`);
-  const Fragment = document.createDocumentFragment();
-  const Elem = messageTemplateElement.cloneNode(true);
+const showSuccess = () => {
+  const cloneSuccessElement = successElement.cloneNode(true);
 
-  Fragment.appendChild(Elem);
-  document.body.append(Fragment);
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      cloneSuccessElement.remove();
+    }
+  });
+  document.addEventListener('click', () => {
+    cloneSuccessElement.remove();
+  });
 
-  setTimeout(() => {
-    const messageDiv = document.body.querySelector(`.${status}`);
-    document.body.removeChild(messageDiv);
-  }, TIME);
+  document.body.appendChild(
+    cloneSuccessElement,
+    setTimeout(() => cloneSuccessElement.remove(), TIME)
+  );
 };
 
-export { showAlert, showStatus };
+const showError = () => {
+  const cloneErrorElement = errorElement.cloneNode(true);
+  document.addEventListener('keydown', (evt) => {
+    if (isEscapeKey(evt)) {
+      evt.preventDefault();
+      cloneErrorElement.remove();
+    }
+  });
+
+  document.addEventListener('click', () => {
+    cloneErrorElement.remove();
+  });
+
+  document.body.appendChild(cloneErrorElement);
+};
+
+export { showAlert, showError, showSuccess };

@@ -1,4 +1,6 @@
 import { turnFilterOff, turnFilterOn } from './filter.js';
+import { sendData } from './server.js';
+import { showError, showSuccess } from './message.js';
 
 const MAX_PRICE = 100000;
 
@@ -107,7 +109,7 @@ adFormPrice.addEventListener('input', () => {
 
 adFormType.addEventListener('change', onTypeChange);
 
-const validateType = () => adFormPrice.value >= typeOption[adFormType.value];
+const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(typeOption[adFormType.value], 10);
 
 const validateTypeDescription = () => `Сумма должна быть выше ${typeOption[adFormType.value]}`;
 
@@ -131,9 +133,9 @@ const adFormSubmit = () => {
 
     if (isValid) {
       turnAdFormOff();
-      setTimeout(() => {
-        turnAdFormOn();
-      }, 5000);
+      const dataForm = new FormData(evt.target);
+      sendData(showSuccess, showError, dataForm);
+      turnAdFormOn();
     }
   });
 };

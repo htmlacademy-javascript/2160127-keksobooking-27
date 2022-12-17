@@ -5,8 +5,8 @@ const resetButton = document.querySelector('.ad-form__reset');
 const description = document.querySelector('#description');
 
 const resetForm = () => {
-  resetButton.addEventListener('click', (event) => {
-    event.preventDefault();
+  resetButton.addEventListener('click', (evt) => {
+    evt.preventDefault();
     resetMarker();
     adFormTitle.value = '';
     adFormPrice.value = '';

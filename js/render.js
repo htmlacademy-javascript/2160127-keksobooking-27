@@ -17,7 +17,7 @@ const render = (cardsData, id) => {
     const photosElem = cardElem.querySelector('.popup__photos');
     const photoElem = photosElem.querySelector('.popup__photo');
 
-    const renderData = (selector, data, caption = '') => {
+    const addSelectorData = (selector, data, caption = '') => {
       if (!data) {
         cardElem.querySelector(selector).remove();
       } else {
@@ -31,11 +31,11 @@ const render = (cardsData, id) => {
       cardElem.querySelector('.popup__avatar').src = author.avatar;
     }
 
-    renderData('.popup__title', offer.title);
-    renderData('.popup__text--address', offer.address);
-    renderData('.popup__text--price', offer.price, ' ₽/ночь');
-    renderData('.popup__type', OFFER_TYPE[offer.type]);
-    renderData('.popup__description', offer.description);
+    addSelectorData('.popup__title', offer.title);
+    addSelectorData('.popup__text--address', offer.address);
+    addSelectorData('.popup__text--price', offer.price, ' ₽/ночь');
+    addSelectorData('.popup__type', OFFER_TYPE[offer.type]);
+    addSelectorData('.popup__description', offer.description);
 
     if (!offer.rooms || !offer.guests) {
       cardElem.querySelector('.popup__text--capacity').remove();

@@ -1,5 +1,6 @@
 import { turnAdFormOff, turnAdFormOn } from './form.js';
 import { render } from './render.js';
+import { getData } from './server.js';
 
 const CENTER_COORDINATES = {
   lat: 35.68401,
@@ -75,4 +76,6 @@ const renderMarker = (adList) => {
   });
 };
 
-export { renderMarker, resetMarker };
+getData(renderMarker);
+
+export { resetMarker };

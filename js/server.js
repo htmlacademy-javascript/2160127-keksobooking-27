@@ -11,19 +11,25 @@ const getData = (onSuccess) => {
 };
 
 const sendData = async (onSuccess, onFail, body) => {
-  try {
-    const response = await fetch(URL_SERVER, {
-      method: 'POST',
-      body
+  fetch(URL_SERVER, {
+    method: 'POST',
+    credentials: 'same-origin',
+    body: body
+  })
+    .then((response) => {
+      response.json();
+      // eslint-disable-next-line no-console
+      console.log(response.ok);
+    })
+    .then((values) => {
+      onSuccess(values);
+    })
+    .catch(() => {
+      onFail();
     });
-    if (!response.ok) {
-      throw new Error('Не удалось отправить форму.Попробуйте еще раз');
-    }
-
-    onSuccess();
-  } catch (error) {
-    onFail(error.message);
-  }
+  //onSuccess();
 };
+//(error)
+// eslint-disable-next-line no-console
 
 export { getData, sendData };
