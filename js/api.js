@@ -24,9 +24,6 @@ const sendData = async (onSuccess, onFail, body) => {
   } catch (error) {
     onFail(error.message);
   }
-  //onSuccess();
 };
-//(error)
-// eslint-disable-next-line no-console
 
 export { getData, sendData };
