@@ -1,4 +1,4 @@
-import { resetMarker } from './map.js';
+import { resetMarker, closePopup } from './map.js';
 import { resetSlider } from './form.js';
 
 const adForm = document.querySelector('.ad-form');
@@ -14,6 +14,7 @@ const resetButton = document.querySelector('.ad-form__reset');
 const description = document.querySelector('#description');
 
 const resetForm = () => {
+  closePopup();
   resetMarker();
   resetSlider();
   adFormTitle.value = '';

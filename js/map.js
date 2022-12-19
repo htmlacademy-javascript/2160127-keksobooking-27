@@ -77,6 +77,9 @@ const renderMarker = (adList) => {
   });
 };
 
+const closePopup = () => {
+  map.closePopup();
+};
 getData(renderMarker);
 
-export { resetMarker };
+export { resetMarker, closePopup };
