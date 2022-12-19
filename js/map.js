@@ -8,9 +8,10 @@ const CENTER_COORDINATES = {
 };
 
 const address = document.querySelector('#address');
-address.setAttribute('disabled', true);
 
 turnAdFormOff();
+address.setAttribute('readonly', true);
+
 const map = L.map('map-canvas')
   .on('load', () => {
     turnAdFormOn();

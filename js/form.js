@@ -129,12 +129,12 @@ pristine.addValidator(adFormTimeOut, validateTimeOut, 'Время выезда �
 const adFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const isValid = pristine.validate();
+    const formData = new FormData(evt.target);
 
+    const isValid = pristine.validate();
     if (isValid) {
       turnAdFormOff();
-      const dataForm = new FormData(evt.target);
-      sendData(showSuccess, showError, dataForm);
+      sendData(showSuccess, showError, formData);
       turnAdFormOn();
     }
   });
