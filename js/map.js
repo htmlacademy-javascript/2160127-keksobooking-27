@@ -1,6 +1,6 @@
 import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
 import { render } from './render.js';
-import { getData } from './server.js';
+import { getData } from './api.js';
 
 const CENTER_COORDINATES = {
   lat: 35.68401,

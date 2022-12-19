@@ -6,7 +6,7 @@ const OFFER_TYPE = {
   hotel: 'Отель'
 };
 const cardTempldate = document.querySelector('#card').content.querySelector('.popup');
-
+//let i = 0;
 const render = (cardsData, id) => {
   const cardFragment = document.createDocumentFragment();
 
@@ -72,7 +72,10 @@ const render = (cardsData, id) => {
       });
     }
     cardFragment.append(cardElem);
+    // eslint-disable-next-line no-console
+    //console.log(i++, cardElem);
   });
+
   return cardFragment.children[id];
 };
 

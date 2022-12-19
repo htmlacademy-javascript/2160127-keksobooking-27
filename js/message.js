@@ -1,9 +1,8 @@
 import { resetForm } from './reset-form.js';
+import { isEscapeKey } from './utils.js';
 const TIME = 5000;
 const successElement = document.querySelector('#success').content.querySelector('.success');
 const errorElement = document.querySelector('#error').content.querySelector('.error');
-
-const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const showAlert = (message) => {
   const divError = document.querySelector('.error_div_get');
@@ -13,40 +12,38 @@ const showAlert = (message) => {
     divError.classList.add('visually-hidden');
   }, TIME);
 };
+const cloneSuccessElement = successElement.cloneNode(true);
+const cloneErrorElement = errorElement.cloneNode(true);
+const onSuccessKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    cloneSuccessElement.remove();
+  }
+};
+const onErrorKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    cloneErrorElement.remove();
+  }
+};
 
 const showSuccess = () => {
-  const cloneSuccessElement = successElement.cloneNode(true);
   resetForm();
-
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      cloneSuccessElement.remove();
-    }
-  });
-  document.addEventListener('click', () => {
-    cloneSuccessElement.remove();
-  });
+  document.addEventListener('keydown', onSuccessKeydown);
 
   document.body.appendChild(
     cloneSuccessElement,
-    setTimeout(() => cloneSuccessElement.remove(), TIME)
+    setTimeout(() => {
+      cloneSuccessElement.remove();
+      document.removeEventListener('keydown', onSuccessKeydown);
+      document.removeEventListener('click', onSuccessKeydown);
+    }, TIME)
   );
 };
 
 const showError = () => {
-  const cloneErrorElement = errorElement.cloneNode(true);
-  document.addEventListener('keydown', (evt) => {
-    if (isEscapeKey(evt)) {
-      evt.preventDefault();
-      cloneErrorElement.remove();
-    }
-  });
-
-  document.addEventListener('click', () => {
-    cloneErrorElement.remove();
-  });
-
+  document.addEventListener('keydown', onErrorKeydown);
+  document.addEventListener('click', onErrorKeydown);
   document.body.appendChild(cloneErrorElement);
 };
 

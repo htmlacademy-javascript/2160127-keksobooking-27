@@ -1,12 +1,28 @@
-import { sendData } from './server.js';
+import { sendData } from './api.js';
 import { showError, showSuccess } from './message.js';
 import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
 //import { resetForm } from './reset-form.js';
 
 const MAX_PRICE = 100000;
+const ROOM_OPTIONS = {
+  1: ['1'],
+  2: ['1', '2'],
+  3: ['1', '2', '3'],
+  100: ['0']
+};
+const ERROR_ROOMS = 'Количество комнат не соответсвует количеству гостей';
+const TYPE_OPTION = {
+  bungalow: '0',
+  flat: '1000',
+  hotel: '3000',
+  house: '5000',
+  palace: '10000'
+};
+const ERROR_CAPACITY = 'Такое количество гостей не соответсвует количеству комнат';
+const ERROR_TIME_IN = 'Время заезда должно быть равно времени выезда';
+const ERROR_TIME_OUT = 'Время выезда должно быть равно времени заезда';
 
 const adForm = document.querySelector('.ad-form');
-
 const adFormTitle = adForm.querySelector('#title');
 const adFormType = adForm.querySelector('#type');
 const adFormPrice = adForm.querySelector('#price');
@@ -16,24 +32,9 @@ const slider = adForm.querySelector('.ad-form__slider');
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 
-const roomsOption = {
-  1: ['1'],
-  2: ['1', '2'],
-  3: ['1', '2', '3'],
-  100: ['0']
-};
-
-const typeOption = {
-  bungalow: '0',
-  flat: '1000',
-  hotel: '3000',
-  house: '5000',
-  palace: '10000'
-};
-
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
 const validatePrice = () => adFormPrice.value <= MAX_PRICE;
-const validateCapacity = () => roomsOption[adFormRooms.value].includes(adFormCapacity.value);
+const validateCapacity = () => ROOM_OPTIONS[adFormRooms.value].includes(adFormCapacity.value);
 
 const onTimeChange = (time, timeChange) => {
   time.value = timeChange.value;
@@ -59,7 +60,7 @@ const pristine = new Pristine(adForm, {
 });
 
 const onTypeChange = () => {
-  adFormPrice.placeholder = typeOption[adFormType.value];
+  adFormPrice.placeholder = TYPE_OPTION[adFormType.value];
 };
 
 noUiSlider.create(slider, {
@@ -96,22 +97,22 @@ const resetSlider = () => slider.noUiSlider.set(0);
 
 adFormType.addEventListener('change', onTypeChange);
 
-const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(typeOption[adFormType.value], 10);
+const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(TYPE_OPTION[adFormType.value], 10);
 
-const validateTypeDescription = () => `Сумма должна быть выше ${typeOption[adFormType.value]}`;
+const validateTypeDescription = () => `Сумма должна быть выше ${TYPE_OPTION[adFormType.value]}`;
 
 pristine.addValidator(adFormTitle, validateTitle);
 
 pristine.addValidator(adFormPrice, validatePrice);
 
-pristine.addValidator(adFormRooms, validateCapacity, 'Количество комнат не соответсвует количеству гостей');
+pristine.addValidator(adFormRooms, validateCapacity, ERROR_ROOMS);
 
-pristine.addValidator(adFormCapacity, validateCapacity, 'Такое количество гостей не соответсвует количеству комнат');
+pristine.addValidator(adFormCapacity, validateCapacity, ERROR_CAPACITY);
 pristine.addValidator(adFormPrice, validateType, validateTypeDescription);
 
-pristine.addValidator(adFormTimeIn, validateTimeIn, 'Время заезда должно быть равно времени выезда');
+pristine.addValidator(adFormTimeIn, validateTimeIn, ERROR_TIME_IN);
 
-pristine.addValidator(adFormTimeOut, validateTimeOut, 'Время выезда должно быть равно времени заезда');
+pristine.addValidator(adFormTimeOut, validateTimeOut, ERROR_TIME_OUT);
 
 const adFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
