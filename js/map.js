@@ -62,7 +62,7 @@ marker.on('moveend', (evt) => {
 });
 
 const renderMarker = (adList) => {
-  adList.forEach(({ location }, index) => {
+  adList.slice(0, 10).forEach(({ location }, index) => {
     const markerN = L.marker(
       {
         lat: location.lat,
