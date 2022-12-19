@@ -44,6 +44,7 @@ const marker = L.marker(
 );
 
 marker.addTo(map);
+const groupOfMarkers = L.layerGroup().addTo(map);
 
 const resetMarker = () => {
   marker.setLatLng({
@@ -73,7 +74,7 @@ const renderMarker = (adList) => {
       }
     );
 
-    markerN.addTo(map).bindPopup(render(adList, index));
+    markerN.addTo(groupOfMarkers).bindPopup(render(adList[index]));
   });
 };
 
