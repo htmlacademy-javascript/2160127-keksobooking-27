@@ -1,11 +1,12 @@
-import { turnFilterOff, turnFilterOn } from './filter.js';
 import { sendData } from './server.js';
 import { showError, showSuccess } from './message.js';
+import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
+//import { resetForm } from './reset-form.js';
 
 const MAX_PRICE = 100000;
 
 const adForm = document.querySelector('.ad-form');
-const fieldsets = adForm.querySelectorAll('fieldset');
+
 const adFormTitle = adForm.querySelector('#title');
 const adFormType = adForm.querySelector('#type');
 const adFormPrice = adForm.querySelector('#price');
@@ -28,22 +29,6 @@ const typeOption = {
   hotel: '3000',
   house: '5000',
   palace: '10000'
-};
-
-const turnAdFormOff = () => {
-  adForm.classList.add('ad-form--disabled');
-  fieldsets.forEach((children) => {
-    children.disabled = true;
-  });
-  turnFilterOff();
-};
-
-const turnAdFormOn = () => {
-  adForm.classList.remove('ad-form--disabled');
-  fieldsets.forEach((children) => {
-    children.disabled = false;
-  });
-  turnFilterOn();
 };
 
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
@@ -107,6 +92,8 @@ adFormPrice.addEventListener('input', () => {
   slider.noUiSlider.set(adFormPrice.value);
 });
 
+const resetSlider = () => slider.noUiSlider.set(0);
+
 adFormType.addEventListener('change', onTypeChange);
 
 const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(typeOption[adFormType.value], 10);
@@ -134,21 +121,11 @@ const adFormSubmit = () => {
     const isValid = pristine.validate();
     if (isValid) {
       turnAdFormOff();
+      //resetForm();
       sendData(showSuccess, showError, formData);
       turnAdFormOn();
     }
   });
 };
 
-export {
-  turnAdFormOff,
-  turnAdFormOn,
-  adFormSubmit,
-  adFormTitle,
-  adFormType,
-  adFormPrice,
-  adFormTimeIn,
-  adFormTimeOut,
-  adFormRooms,
-  adFormCapacity
-};
+export { adFormSubmit, resetSlider };

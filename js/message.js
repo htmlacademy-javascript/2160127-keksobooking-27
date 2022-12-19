@@ -1,3 +1,4 @@
+import { resetForm } from './reset-form.js';
 const TIME = 5000;
 const successElement = document.querySelector('#success').content.querySelector('.success');
 const errorElement = document.querySelector('#error').content.querySelector('.error');
@@ -15,6 +16,7 @@ const showAlert = (message) => {
 
 const showSuccess = () => {
   const cloneSuccessElement = successElement.cloneNode(true);
+  resetForm();
 
   document.addEventListener('keydown', (evt) => {
     if (isEscapeKey(evt)) {

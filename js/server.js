@@ -21,7 +21,6 @@ const sendData = async (onSuccess, onFail, body) => {
       throw new Error('Не удалось отправить форму.Попробуйте еще раз');
     }
     onSuccess();
-    //resetForm();
   } catch (error) {
     onFail(error.message);
   }

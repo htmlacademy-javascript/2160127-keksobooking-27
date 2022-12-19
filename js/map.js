@@ -1,4 +1,4 @@
-import { turnAdFormOff, turnAdFormOn } from './form.js';
+import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
 import { render } from './render.js';
 import { getData } from './server.js';
 
@@ -6,11 +6,11 @@ const CENTER_COORDINATES = {
   lat: 35.68401,
   lng: 139.7559
 };
-
+//
 const address = document.querySelector('#address');
+address.setAttribute('readonly', true);
 
 turnAdFormOff();
-address.setAttribute('readonly', true);
 
 const map = L.map('map-canvas')
   .on('load', () => {
