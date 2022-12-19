@@ -1,13 +1,18 @@
-import { turnFilterOff, turnFilterOn } from './filter.js';
+import { sendData } from './server.js';
+import { showError, showSuccess } from './message.js';
+import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
+//import { resetForm } from './reset-form.js';
 
-const adForm = document.querySelector('.ad-form');
-const fieldsets = adForm.querySelectorAll('fieldset');
-
-const adFormTitle = adForm.querySelector('#title');
-
-const adFormPrice = adForm.querySelector('#price');
 const MAX_PRICE = 100000;
 
+const adForm = document.querySelector('.ad-form');
+
+const adFormTitle = adForm.querySelector('#title');
+const adFormType = adForm.querySelector('#type');
+const adFormPrice = adForm.querySelector('#price');
+const adFormTimeIn = adForm.querySelector('#timein');
+const adFormTimeOut = adForm.querySelector('#timeout');
+const slider = adForm.querySelector('.ad-form__slider');
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 
@@ -18,34 +23,12 @@ const roomsOption = {
   100: ['0']
 };
 
-const adFormType = adForm.querySelector('#type');
 const typeOption = {
   bungalow: '0',
   flat: '1000',
   hotel: '3000',
   house: '5000',
   palace: '10000'
-};
-
-const adFormTimeIn = adForm.querySelector('#timein');
-const adFormTimeOut = adForm.querySelector('#timeout');
-
-const slider = adForm.querySelector('.ad-form__slider');
-
-const turnAdFormOff = () => {
-  adForm.classList.add('ad-form--disabled');
-  fieldsets.forEach((children) => {
-    children.disabled = true;
-  });
-  turnFilterOff();
-};
-
-const turnAdFormOn = () => {
-  adForm.classList.remove('ad-form--disabled');
-  fieldsets.forEach((children) => {
-    children.disabled = false;
-  });
-  turnFilterOn();
 };
 
 const validateTitle = (value) => value.length >= 30 && value.length <= 100;
@@ -109,9 +92,11 @@ adFormPrice.addEventListener('input', () => {
   slider.noUiSlider.set(adFormPrice.value);
 });
 
+const resetSlider = () => slider.noUiSlider.set(0);
+
 adFormType.addEventListener('change', onTypeChange);
 
-const validateType = () => adFormPrice.value >= typeOption[adFormType.value];
+const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(typeOption[adFormType.value], 10);
 
 const validateTypeDescription = () => `Сумма должна быть выше ${typeOption[adFormType.value]}`;
 
@@ -131,15 +116,16 @@ pristine.addValidator(adFormTimeOut, validateTimeOut, 'Время выезда �
 const adFormSubmit = () => {
   adForm.addEventListener('submit', (evt) => {
     evt.preventDefault();
-    const isValid = pristine.validate();
+    const formData = new FormData(evt.target);
 
+    const isValid = pristine.validate();
     if (isValid) {
       turnAdFormOff();
-      setTimeout(() => {
-        turnAdFormOn();
-      }, 5000);
+      //resetForm();
+      sendData(showSuccess, showError, formData);
+      turnAdFormOn();
     }
   });
 };
 
-export { turnAdFormOff, turnAdFormOn, adFormSubmit };
+export { adFormSubmit, resetSlider };

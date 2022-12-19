@@ -1,21 +1,22 @@
-import { turnAdFormOff, turnAdFormOn } from './form.js';
-
-import { cardsData, cardFragment } from './render.js';
+import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
+import { render } from './render.js';
+import { getData } from './server.js';
 
 const CENTER_COORDINATES = {
-  lat: 35.71809,
-  lng: 139.77974
+  lat: 35.68401,
+  lng: 139.7559
 };
-
+//
 const address = document.querySelector('#address');
-address.setAttribute('disabled', true);
+address.setAttribute('readonly', true);
 
 turnAdFormOff();
+
 const map = L.map('map-canvas')
   .on('load', () => {
     turnAdFormOn();
   })
-  .setView(CENTER_COORDINATES, 10);
+  .setView(CENTER_COORDINATES, 13);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -39,10 +40,18 @@ const marker = L.marker(
     draggable: true,
     icon: mainIcon
   },
-  (address.value = `${CENTER_COORDINATES.lat} ${CENTER_COORDINATES.lng}`)
+  (address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`)
 );
 
 marker.addTo(map);
+
+const resetMarker = () => {
+  marker.setLatLng({
+    lat: CENTER_COORDINATES.lat,
+    lng: CENTER_COORDINATES.lng
+  });
+  address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`;
+};
 
 marker.on('moveend', (evt) => {
   const latLng = evt.target.getLatLng();
@@ -52,16 +61,22 @@ marker.on('moveend', (evt) => {
   address.value = `${lat}, ${lng}`;
 });
 
-cardsData.forEach(({ location }, index) => {
-  const markerNew = L.marker(
-    {
-      lat: location.lat,
-      lng: location.lng
-    },
-    {
-      icon: otherIcon
-    }
-  );
+const renderMarker = (adList) => {
+  adList.forEach(({ location }, index) => {
+    const markerN = L.marker(
+      {
+        lat: location.lat,
+        lng: location.lng
+      },
+      {
+        icon: otherIcon
+      }
+    );
 
-  markerNew.addTo(map).bindPopup(cardFragment.children[index]);
-});
+    markerN.addTo(map).bindPopup(render(adList, index));
+  });
+};
+
+getData(renderMarker);
+
+export { resetMarker };
