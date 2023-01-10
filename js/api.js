@@ -1,5 +1,5 @@
 import { showAlert } from './message.js';
-//import { resetForm } from './reset-form.js';
+/*файл для получени и отпрвки данных*/
 
 const URL_SERVER = 'https://27.javascript.pages.academy/keksobooking';
 const URL_DATA = `${URL_SERVER}/data`;

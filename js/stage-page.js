@@ -1,28 +1,32 @@
+const TURN_STATUS = {
+  Off: true,
+  On: false
+};
 const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 const fieldsets = adForm.querySelectorAll('fieldset');
 
-const turnFilterOff = () => {
+const turnFilter = (status) => {
   mapFilter.classList.add('map__filter--disabled');
   for (const child of mapFilter.children) {
-    child.disabled = true;
+    child.disabled = status;
   }
 };
 
 //turnOn all filters
-const turnFilterOn = () => {
-  mapFilter.classList.add('map__filter--disabled');
-  for (const child of mapFilter.children) {
-    child.disabled = false;
-  }
-};
+// const turnFilterOn = () => {
+//   mapFilter.classList.add('map__filter--disabled');
+//   for (const child of mapFilter.children) {
+//     child.disabled = false;
+//   }
+// };
 
 const turnAdFormOff = () => {
   adForm.classList.add('ad-form--disabled');
   fieldsets.forEach((children) => {
     children.disabled = true;
   });
-  turnFilterOff();
+  turnFilter(TURN_STATUS.Off);
 };
 
 const turnAdFormOn = () => {
@@ -30,7 +34,7 @@ const turnAdFormOn = () => {
   fieldsets.forEach((children) => {
     children.disabled = false;
   });
-  turnFilterOn();
+  turnFilter(TURN_STATUS.On);
 };
 
-export { turnAdFormOff, turnAdFormOn };
+export { turnAdFormOff, turnAdFormOn, turnFilter };

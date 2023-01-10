@@ -83,4 +83,4 @@ const closePopup = () => {
 };
 getData(renderMarker);
 
-export { resetMarker, closePopup };
+export { resetMarker, closePopup, groupOfMarkers };

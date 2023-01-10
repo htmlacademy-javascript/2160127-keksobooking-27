@@ -3,6 +3,8 @@ import { showError, showSuccess } from './message.js';
 import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
 //import { resetForm } from './reset-form.js';
 
+const MAX_SYMBOLS_VALUE = 100;
+const MIN_SYMBOLS_VALUE = 30;
 const MAX_PRICE = 100000;
 const ROOM_OPTIONS = {
   1: ['1'],
@@ -32,7 +34,7 @@ const slider = adForm.querySelector('.ad-form__slider');
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 
-const validateTitle = (value) => value.length >= 30 && value.length <= 100;
+const validateTitle = (value) => value.length >= MIN_SYMBOLS_VALUE && value.length <= MAX_SYMBOLS_VALUE;
 const validatePrice = () => adFormPrice.value <= MAX_PRICE;
 const validateCapacity = () => ROOM_OPTIONS[adFormRooms.value].includes(adFormCapacity.value);
 
