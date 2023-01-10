@@ -1,7 +1,6 @@
+import { showError, showSuccess } from './modal.js';
+import { resetFilters } from './filter.js';
 import { sendData } from './api.js';
-import { showError, showSuccess } from './message.js';
-import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
-//import { resetForm } from './reset-form.js';
 
 const MAX_SYMBOLS_VALUE = 100;
 const MIN_SYMBOLS_VALUE = 30;
@@ -20,11 +19,21 @@ const TYPE_OPTION = {
   house: '5000',
   palace: '10000'
 };
+
+const PRISTINE_OPTIONS = {
+  classTo: 'ad-form__element', // Элемент, на который будут добавляться классы
+  errorClass: 'ad-form__element--invalid', // Класс, обозначающий невалидное поле
+  successClass: 'ad-form__element--valid',
+  errorTextParent: 'ad-form__element', // Элемент, куда будет выводиться текст с ошибкой
+  errorTextTag: 'span', // Тег, который будет обрамлять текст ошибки
+  errorTextClass: 'text-help' // Класс для элемента с текстом ошибки
+};
 const ERROR_CAPACITY = 'Такое количество гостей не соответсвует количеству комнат';
 const ERROR_TIME_IN = 'Время заезда должно быть равно времени выезда';
 const ERROR_TIME_OUT = 'Время выезда должно быть равно времени заезда';
 
 const adForm = document.querySelector('.ad-form');
+const adFormButton = adForm.querySelector('.ad-form__submit');
 const adFormTitle = adForm.querySelector('#title');
 const adFormType = adForm.querySelector('#type');
 const adFormPrice = adForm.querySelector('#price');
@@ -33,6 +42,11 @@ const adFormTimeOut = adForm.querySelector('#timeout');
 const slider = adForm.querySelector('.ad-form__slider');
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
+const adFormAddress = adForm.querySelector('#address');
+
+const setCoordinates = (location) => {
+  adFormAddress.setAttribute('value', `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`);
+};
 
 const validateTitle = (value) => value.length >= MIN_SYMBOLS_VALUE && value.length <= MAX_SYMBOLS_VALUE;
 const validatePrice = () => adFormPrice.value <= MAX_PRICE;
@@ -53,13 +67,7 @@ const validateTimeOut = () => {
   return adFormTimeIn.value === adFormTimeOut.value;
 };
 
-const pristine = new Pristine(adForm, {
-  classTo: 'ad-form__element',
-  errorClass: 'ad-form__element--invalid',
-  errorTextParent: 'ad-form__element',
-  errorTextTag: 'span',
-  errorTextClass: 'text-help'
-});
+const pristine = new Pristine(adForm, PRISTINE_OPTIONS);
 
 const onTypeChange = () => {
   adFormPrice.placeholder = TYPE_OPTION[adFormType.value];
@@ -95,8 +103,6 @@ adFormPrice.addEventListener('input', () => {
   slider.noUiSlider.set(adFormPrice.value);
 });
 
-const resetSlider = () => slider.noUiSlider.set(0);
-
 adFormType.addEventListener('change', onTypeChange);
 
 const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(TYPE_OPTION[adFormType.value], 10);
@@ -116,19 +122,31 @@ pristine.addValidator(adFormTimeIn, validateTimeIn, ERROR_TIME_IN);
 
 pristine.addValidator(adFormTimeOut, validateTimeOut, ERROR_TIME_OUT);
 
-const adFormSubmit = () => {
-  adForm.addEventListener('submit', (evt) => {
-    evt.preventDefault();
-    const formData = new FormData(evt.target);
-
-    const isValid = pristine.validate();
-    if (isValid) {
-      turnAdFormOff();
-      //resetForm();
-      sendData(showSuccess, showError, formData);
-      turnAdFormOn();
-    }
-  });
+const blockSubmitButton = () => {
+  adFormButton.classList.add('map__filters--disabled');
+  adFormButton.textContent = 'Отправляю...';
 };
 
-export { adFormSubmit, resetSlider };
+const unblockSubmitButton = () => {
+  adFormButton.classList.remove('map__filters--disabled');
+  adFormButton.textContent = 'Опубликовать';
+};
+
+const onSuccess = () => {
+  showSuccess();
+  adForm.reset();
+  resetFilters();
+};
+
+adForm.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
+
+  const isValid = pristine.validate();
+  if (isValid) {
+    blockSubmitButton();
+    await sendData(onSuccess, showError, new FormData(adForm));
+    unblockSubmitButton();
+  }
+});
+
+export { setCoordinates, adForm, slider };
