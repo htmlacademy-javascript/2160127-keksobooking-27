@@ -58,4 +58,4 @@ const getBlockModifier = (block, modifier) => {
   }
 };
 
-export { showAlert, isEscEvent, debounce, throttle, getBlockModifier };
+export { showAlert, isEscapeKey, debounce, throttle, getBlockModifier };

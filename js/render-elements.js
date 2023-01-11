@@ -6,10 +6,8 @@ const houseTypeToString = {
   hotel: 'Отель'
 };
 
-//Элемент клонирования карточки
 const cardTemplate = document.querySelector('#card').content.querySelector('.popup');
 
-//Массив преимуществ
 const markUpFeatures = (card, features) => {
   const featuresList = card.querySelector('.popup__features');
 
@@ -43,7 +41,7 @@ const markUpPhotos = (cardElement, photos) => {
   }
 };
 
-export const markUpAd = ({ offer, author }) => {
+const markUpAd = ({ offer, author }) => {
   const cardElement = cardTemplate.cloneNode(true);
 
   cardElement.querySelector('.popup__title').textContent = offer.title;
@@ -59,3 +57,4 @@ export const markUpAd = ({ offer, author }) => {
 
   return cardElement;
 };
+export { markUpAd };
