@@ -4,9 +4,9 @@ import { debounce } from './utils.js';
 
 const RERENDER_DELAY = 1000;
 const FILTER_ALL = 'any';
-const priceHousing = {
-  MIN: 10000,
-  MAX: 50000
+const Price = {
+  MIDDLE: 10000,
+  HIGH: 100000
 };
 
 const filterForm = document.querySelector('.map__filters');
@@ -32,18 +32,17 @@ const getCheckedFeatures = () => {
 
 const isFilteringByPrice = (offer, price) => {
   switch (price) {
-    case 'low':
-      return offer.price < priceHousing.MIN;
-    case 'middle':
-      return offer.price < priceHousing.MAX && offer.price > priceHousing.MIN;
-    case 'high':
-      return offer.price >= priceHousing.MAX;
-    default: // any
+    case 'any':
       return true;
+    case 'low':
+      return offer < Price.MIDDLE;
+    case 'middle':
+      return offer > Price.MIDDLE && offer < Price.HIGH;
+    case 'high':
+      return offer >= Price.HIGH;
   }
 };
 
-//Проверяет по ключам
 const isFilteringByValue = (value, filterValue) => filterValue === FILTER_ALL || String(value) === String(filterValue);
 
 const getFilterHandler = (allLocations) => () => {
@@ -91,4 +90,4 @@ const initFilter = (allLocations) => {
 
 const resetFilters = () => filterForm.reset();
 
-export { initFilter, resetFilters, filterForm };
+export { initFilter, resetFilters };

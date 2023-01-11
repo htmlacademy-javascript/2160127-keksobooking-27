@@ -1,4 +1,4 @@
-import { isEscEvent } from './utils.js';
+import { isEscapeKey } from './utils.js';
 
 const HIDE_DELAY = 5000;
 const successTemplate = document.querySelector('#success').content.querySelector('.success');
@@ -16,7 +16,7 @@ const initModal = (template, extraCloser) => {
   };
 
   const keydownHandler = (evt) => {
-    if (isEscEvent(evt)) {
+    if (isEscapeKey(evt)) {
       element.remove();
       document.removeEventListener('keydown', keydownHandler);
     }

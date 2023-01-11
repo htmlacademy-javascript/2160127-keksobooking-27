@@ -21,12 +21,12 @@ const TYPE_OPTION = {
 };
 
 const PRISTINE_OPTIONS = {
-  classTo: 'ad-form__element', // Элемент, на который будут добавляться классы
-  errorClass: 'ad-form__element--invalid', // Класс, обозначающий невалидное поле
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form__element--invalid',
   successClass: 'ad-form__element--valid',
-  errorTextParent: 'ad-form__element', // Элемент, куда будет выводиться текст с ошибкой
-  errorTextTag: 'span', // Тег, который будет обрамлять текст ошибки
-  errorTextClass: 'text-help' // Класс для элемента с текстом ошибки
+  errorTextParent: 'ad-form__element',
+  errorTextTag: 'span',
+  errorTextClass: 'text-help'
 };
 const ERROR_CAPACITY = 'Такое количество гостей не соответсвует количеству комнат';
 const ERROR_TIME_IN = 'Время заезда должно быть равно времени выезда';
