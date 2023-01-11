@@ -1,3 +1,18 @@
+const ALERT_SHOW_TIME = 5000;
+
+//Сообщение об ошибке
+const showAlert = (message) => {
+  const divError = document.querySelector('.error_div_get');
+  divError.textContent = message;
+  divError.classList.remove('visually-hidden');
+  setTimeout(() => {
+    divError.classList.add('visually-hidden');
+  }, ALERT_SHOW_TIME);
+};
+
+const isEscapeKey = (evt) => evt.key === 'Escape' || evt.key === 'Esc';
+
+// Функция для устранения дребезга
 const debounce = (callback, timeoutDelay) => {
   // Используем замыкания, чтобы id таймаута у нас навсегда приклеился
   // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
@@ -36,4 +51,11 @@ const throttle = (callback, delayBetweenFrames) => {
   };
 };
 
-export { debounce, throttle };
+const getBlockModifier = (block, modifier) => {
+  if (block.classList.length) {
+    const className = block.classList[0];
+    return `${className}--${modifier}`;
+  }
+};
+
+export { showAlert, isEscapeKey, debounce, throttle, getBlockModifier };

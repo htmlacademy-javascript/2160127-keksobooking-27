@@ -1,85 +1,64 @@
-import { turnAdFormOff, turnAdFormOn } from './stage-page.js';
-import { render } from './render.js';
-import { getData } from './server.js';
+import { setCoordinates } from './ad-form.js';
+import { markUpAd } from './render-elements.js';
 
-const CENTER_COORDINATES = {
-  lat: 35.68401,
-  lng: 139.7559
-};
-//
-const address = document.querySelector('#address');
-address.setAttribute('readonly', true);
+const OFFERS_COUNT = 10;
+const map = L.map('map-canvas');
 
-turnAdFormOff();
-
-const map = L.map('map-canvas')
-  .on('load', () => {
-    turnAdFormOn();
-  })
-  .setView(CENTER_COORDINATES, 13);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-}).addTo(map);
-
-const mainIcon = L.icon({
-  iconUrl: '../img/main-pin.svg',
-  iconSize: [50, 50],
-  iconAnchor: [25, 50]
+const mainPinIcon = L.icon({
+  iconUrl: './img/main-pin.svg',
+  iconSize: [52, 52],
+  iconAnchor: [26, 52]
 });
 
-const otherIcon = L.icon({
-  iconUrl: '../img/pin.svg',
+const mainPinMarker = L.marker(
+  {
+    lat: 35.682339,
+    lng: 139.75318
+  },
+  {
+    draggable: true,
+    icon: mainPinIcon
+  }
+);
+
+const pinIcon = L.icon({
+  iconUrl: './img/pin.svg',
   iconSize: [40, 40],
   iconAnchor: [20, 40]
 });
 
-const marker = L.marker(
-  CENTER_COORDINATES,
-  {
-    draggable: true,
-    icon: mainIcon
-  },
-  (address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`)
-);
+const initMap = (coordinate) => {
+  map.setView(coordinate, 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
-marker.addTo(map);
-
-const resetMarker = () => {
-  marker.setLatLng({
-    lat: CENTER_COORDINATES.lat,
-    lng: CENTER_COORDINATES.lng
-  });
-  address.value = `${CENTER_COORDINATES.lat}, ${CENTER_COORDINATES.lng}`;
+  mainPinMarker.setLatLng(coordinate);
+  mainPinMarker.addTo(map);
+  setCoordinates(coordinate);
 };
 
-marker.on('moveend', (evt) => {
-  const latLng = evt.target.getLatLng();
-  const lat = latLng.lat.toFixed(5);
-  const lng = latLng.lng.toFixed(5);
-
-  address.value = `${lat}, ${lng}`;
+mainPinMarker.on('moveend', (evt) => {
+  const coordinatesMarker = evt.target.getLatLng();
+  setCoordinates(coordinatesMarker);
 });
 
-const renderMarker = (adList) => {
-  adList.slice(0, 10).forEach(({ location }, index) => {
-    const markerN = L.marker(
-      {
-        lat: location.lat,
-        lng: location.lng
-      },
-      {
-        icon: otherIcon
-      }
-    );
+const markerGroup = L.layerGroup().addTo(map);
 
-    markerN.addTo(map).bindPopup(render(adList, index));
+const createAdPinMarker = (locations) => {
+  locations.forEach(({ location, offer, author }) => {
+    const marker = L.marker(location, {
+      icon: pinIcon
+    });
+    marker.addTo(markerGroup).bindPopup(markUpAd({ offer, author }));
   });
 };
 
-const closePopup = () => {
-  map.closePopup();
+const setAdPins = (locations) => {
+  markerGroup.clearLayers();
+  createAdPinMarker(locations.slice(0, OFFERS_COUNT));
 };
-getData(renderMarker);
 
-export { resetMarker, closePopup };
+const setOnMapLoad = (cb) => map.on('load', cb);
+
+export { initMap, setAdPins, setOnMapLoad };
