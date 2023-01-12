@@ -14,7 +14,7 @@ const typeFilter = document.querySelector('#housing-type');
 const priceFilter = document.querySelector('#housing-price');
 const roomsFilter = document.querySelector('#housing-rooms');
 const guestsFilter = document.querySelector('#housing-guests');
-//const featuresFilter = Array.from(document.querySelectorAll('.map__checkbox'));
+
 
 const filterByType = (offer, type) => type === 'any' || offer.offer.type === type;
 const filterByPrice = (offer, price) => {
@@ -34,12 +34,13 @@ const filterByRooms = (offer, rooms) => rooms === 'any' || offer.offer.rooms ===
 const filterByGuests = (offer, guests) => guests === 'any' || offer.offer.guests === Number(guests);
 
 const filterByFeatures = (offer, features) => {
-  // eslint-disable-next-line no-console
-  console.log(offer.offer.features);
-  if (!features.lenght) {
+  if (features.length === 0) {
     return true;
   }
-  features.every((feature) => offer.offer.features.includes(feature));
+  if (typeof offer.offer.features === 'undefined') {
+    return false;
+  }
+  return features.every((feature) => offer.offer.features.includes(feature));
 };
 
 const getFilterHandler = (offers) => () => {
@@ -58,8 +59,6 @@ const getFilterHandler = (offers) => () => {
 
   const filteredOffers = [];
   for (const offer of offers) {
-    // eslint-disable-next-line no-console
-    console.log(offer);
     if (filteredOffers.length >= OFFER_COUNT) {
       break;
     }
@@ -78,8 +77,6 @@ const getFilterHandler = (offers) => () => {
 };
 
 const initFilter = (allLocations) => {
-  // eslint-disable-next-line no-console
-  //console.log(allLocations);
   setAdPins(allLocations);
   switchFilterState();
   const debouncedInputFilter = debounce(getFilterHandler(allLocations), RERENDER_DELAY);

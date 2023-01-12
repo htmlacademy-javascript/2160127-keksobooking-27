@@ -11,7 +11,7 @@ const disableElementForm = (tag, form, isDisable = true) => {
   }
 };
 
-// Функция, которая раз/блокирует форму
+// Функция, которая [раз]блокирует форму
 const createFormSwitcher = (form, selectors = ['fieldset']) => {
   const disableClass = getBlockModifier(form, 'disabled');
 
