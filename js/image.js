@@ -20,21 +20,26 @@ const createImgForPreview = (previewContainer) => {
 };
 
 const createPhotoPreview = (fileChooser, previewContainer) => {
-  fileChooser.addEventListener('change', () => {
-    const file = fileChooser.files[0];
-    const fileName = file.name.toLowerCase();
-    const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
-
-    if (matches) {
-      const preview = previewContainer.querySelector('img');
-      if (preview) {
-        preview.src = URL.createObjectURL(file);
-      } else {
-        const newPreview = createImgForPreview(previewContainer);
-        newPreview.src = URL.createObjectURL(file);
-      }
+  const file = fileChooser.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
+  if (matches) {
+    const preview = previewContainer.querySelector('img');
+    if (preview) {
+      preview.src = URL.createObjectURL(file);
+    } else {
+      const newPreview = createImgForPreview(previewContainer);
+      newPreview.src = URL.createObjectURL(file);
     }
-  });
+  }
+};
+
+const createAvatarPreview = () => createPhotoPreview(fileAvatar, previewAvatar);
+const createZonePreview = () => createPhotoPreview(fileChooserZone, previewZone);
+
+const onChangephoto = () => {
+  fileAvatar.addEventListener('change', createAvatarPreview);
+  fileChooserZone.addEventListener('change', createZonePreview);
 };
 
 const resetAvatarUrl = (photoContainer, defaultPhoto) => {
@@ -46,8 +51,7 @@ const resetPhotoContainer = (photoContainer) => {
   photoContainer.innerHTML = '';
 };
 
-createPhotoPreview(fileAvatar, previewAvatar);
-createPhotoPreview(fileChooserZone, previewZone);
+onChangephoto();
 
 const resetPhoto = () => {
   resetAvatarUrl(previewAvatar, DEFAULT_AVATAR);
