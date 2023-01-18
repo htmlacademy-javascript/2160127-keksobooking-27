@@ -13,6 +13,7 @@ const initModal = (template, extraCloser) => {
 
   const removeModal = () => {
     element.remove();
+    //Не удаляю событие, так как удаляю элемент
   };
 
   const keydownHandler = (evt) => {

@@ -52,24 +52,24 @@ const validateTitle = (value) => value.length >= MIN_SYMBOLS_VALUE && value.leng
 const validatePrice = () => adFormPrice.value <= MAX_PRICE;
 const validateCapacity = () => ROOM_OPTIONS[adFormRooms.value].includes(adFormCapacity.value);
 
-const onTimeChange = (time, timeChange) => {
+const onChangeTime = (time, timeChange) => {
   time.value = timeChange.value;
 };
 const validateTimeIn = () => {
-  adFormTimeOut.addEventListener('change', onTimeChange(adFormTimeOut, adFormTimeIn));
+  adFormTimeOut.addEventListener('change', onChangeTime(adFormTimeOut, adFormTimeIn));
 
   return adFormTimeOut.value === adFormTimeIn.value;
 };
 
 const validateTimeOut = () => {
-  adFormTimeIn.addEventListener('change', onTimeChange(adFormTimeIn, adFormTimeOut));
+  adFormTimeIn.addEventListener('change', onChangeTime(adFormTimeIn, adFormTimeOut));
 
   return adFormTimeIn.value === adFormTimeOut.value;
 };
 
 const pristine = new Pristine(adForm, PRISTINE_OPTIONS);
 
-const onTypeChange = () => {
+const onChangeType = () => {
   adFormPrice.placeholder = TYPE_OPTION[adFormType.value];
 };
 
@@ -96,14 +96,16 @@ slider.noUiSlider.on('change', () => {
   pristine.validate(adFormPrice);
 });
 
-adFormPrice.addEventListener('input', () => {
+const onChangePrice = () => {
   if (!adFormPrice.value) {
     slider.noUiSlider.set(0);
   }
   slider.noUiSlider.set(adFormPrice.value);
-});
+};
 
-adFormType.addEventListener('change', onTypeChange);
+adFormPrice.addEventListener('input', onChangePrice);
+
+adFormType.addEventListener('change', onChangeType);
 
 const validateType = () => parseInt(adFormPrice.value, 10) >= parseInt(TYPE_OPTION[adFormType.value], 10);
 
@@ -144,6 +146,10 @@ adForm.addEventListener('submit', async (evt) => {
   const isValid = pristine.validate();
   if (isValid) {
     blockSubmitButton();
+    adFormTimeIn.removeEventListener('change', onChangeTime(adFormTimeIn, adFormTimeOut));
+    adFormTimeOut.removeEventListener('change', onChangeTime(adFormTimeOut, adFormTimeIn));
+    adFormType.removeEventListener('change', onChangeType);
+    adFormPrice.removeEventListener('input', onChangePrice);
     await sendData(onSuccess, showError, new FormData(adForm));
     unblockSubmitButton();
   }
