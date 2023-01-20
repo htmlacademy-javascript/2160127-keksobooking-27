@@ -43,6 +43,7 @@ const slider = adForm.querySelector('.ad-form__slider');
 const adFormRooms = adForm.querySelector('#room_number');
 const adFormCapacity = adForm.querySelector('#capacity');
 const adFormAddress = adForm.querySelector('#address');
+adFormAddress.setAttribute('readonly', true);
 
 const setCoordinates = (location) => {
   adFormAddress.setAttribute('value', `${location.lat.toFixed(5)}, ${location.lng.toFixed(5)}`);
